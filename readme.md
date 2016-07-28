@@ -1,3 +1,8 @@
+Xledger Challenge
+=================
+
+Provides a search bar that displays intuitive search results as the user types.
+
 Chooie's Automatopia (Project Seed)
 ===================================
 

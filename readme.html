@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>readme.html</title>
+
+</head>
+
+<body>
+
+<h1 id="xledgerchallenge">Xledger Challenge</h1>
+
+<p>Provides a search bar that displays intuitive search results as the user types.</p>
+
+<h1 id="chooiesautomatopiaprojectseed">Chooie&#8217;s Automatopia (Project Seed)</h1>
+
+<p>This project seed differs from the original. It differs in:</p>
+
+<ul>
+<li>JSHint config</li>
+<li>Code Style</li>
+<li>Server implementation - uses &#8216;express&#8217;</li>
+</ul>
+
+<p>This repository contains build and test automation for JavaScript applications. It&#8217;s intended as a starting point for your own JavaScript projects. It&#8217;s best for standalone applications, not npm modules. It includes:</p>
+
+<ul>
+<li>Automated build (using Jake) with:
+
+<ul>
+<li>Linting (using JSHint)</li>
+<li>Node.js tests (using Mocha)</li>
+<li>Cross-browser tests (using Karma, Mocha, and expect.js)</li>
+<li>Front-end modules (using Browserify)</li>
+</ul></li>
+<li>Automated continuous integration (using Git)</li>
+<li>Automated deployment (to Heroku)</li>
+<li>Example code (in the <code>src</code> directory):
+
+<ul>
+<li>Server-side integration test</li>
+<li>Development smoke test</li>
+<li>Release smoke test</li>
+<li>Client-side DOM test</li>
+</ul></li>
+</ul>
+
+<p>This code was originally developed for James Shore&#8217;s <a href="http://www.letscodejavascript.com">Let&#8217;s Code: Test-Driven JavaScript</a> screencast. See Lessons Learned #16, <a href="http://www.letscodejavascript.com/v3/episodes/lessons_learned/16">JavaScript Workflow 2015</a>, for a detailed description of the front-end and continuous integration workflow.</p>
+
+<p>You may wonder why this repository includes dependencies (in <code>node_modules</code>) and IDE settings (in <code>.idea</code>). The reasoning is explained in my essay, &#8220;<a href="http://www.letscodejavascript.com/v3/blog/2014/12/the_reliable_build">The Reliable Build</a>.&#8221; If you prefer not to include these sorts of things in your repo, it&#8217;s fine to remove them.</p>
+
+<h2 id="touse">To Use</h2>
+
+<p>Start out by downloading the code as described in &#8220;Download and Setup,&#8221; below. Then:</p>
+
+<ul>
+<li><p>If you&#8217;re a solo developer using this repository as a starting point for a personal project, follow the steps under &#8220;Building and Testing.&#8221;</p></li>
+<li><p>If you&#8217;re part of a team and planning to use the continuous integration script, follow the steps under &#8220;Continuous Integration.&#8221; (If you <em>don&#8217;t</em> plan to use the CI script, follow the steps under &#8220;Building and Testing&#8221; and supply your own CI tool.)</p></li>
+<li><p>If you&#8217;re part of a team and planning to use the Heroku deployment script, follow the steps under &#8220;Deploying to Heroku.&#8221; Note that the deployment script assumes you&#8217;re also using the CI script.</p></li>
+</ul>
+
+<p>Once you have it working, delete anything you don&#8217;t need and modify anything you like. Make it your own.</p>
+
+<h2 id="findingyourwayaround">Finding Your Way Around</h2>
+
+<p>This repository consists of the following directories:</p>
+
+<ul>
+<li><code>.idea</code>: WebStorm IDE settings. (Optional.)</li>
+<li><code>build</code>: Build, CI, and deployment automation.</li>
+<li><code>build/config</code>: Build configuration.</li>
+<li><code>build/scripts</code>: Build scripts. Don&#8217;t run them directly; they&#8217;re used by the scripts in the root directory.</li>
+<li><code>build/util</code>: Modules used by the build scripts.</li>
+<li><code>node_modules</code>: npm dependencies. (Optional. See &#8220;Installing, Updating, and Removing npm Packages&#8221; below.)</li>
+<li><code>src</code>: Example code.</li>
+<li><code>src/client</code>: Front-end code.</li>
+<li><code>src/server</code>: Node.js server code.</li>
+</ul>
+
+<p>In the repository root, you&#8217;ll find the following scripts. For each script, there&#8217;s a <code>.sh</code> version for Unix and Mac and a <code>.bat</code> version for Windows:</p>
+
+<ul>
+<li><code>ci</code>: Continuous integration automation.</li>
+<li><code>deploy</code>: Automated deployment to Heroku.</li>
+<li><code>jake</code>: Build and test automation.</li>
+<li><code>watch</code>: Automatically runs <code>jake</code> when any files change. Any arguments are passed through to jake.</li>
+</ul>
+
+<p>For all these scripts, use <code>-T</code> to see the available build targets and their documentation. If no target is provided, the script will run <code>default</code>. Use <code>--help</code> for additional options.</p>
+
+<p>The <code>jake</code> script has this additional option:</p>
+
+<ul>
+<li><code>loose=true</code>: Disable strict browser and version checks.</li>
+</ul>
+
+<h2 id="downloadandsetup">Download and Setup</h2>
+
+<p>To download the project:</p>
+
+<ol>
+<li>Install <a href="http://git-scm.com/downloads">Git</a>.</li>
+<li>Clone the latest code only (to save time): <code>git clone --depth 1 https://github.com/jamesshore/automatopia.git</code></li>
+<li>Modify <code>package.json</code> to use your Node version in the <code>engines.node</code> line. (Run <code>node --version</code> to determine your Node version.)</li>
+<li>Delete the <code>.git</code> directory so you start fresh</li>
+<li>Run <code>git init</code>, <code>git add .</code>, and <code>git commit -am &quot;Initial commit&quot;</code> to initialize the git repository.</li>
+<li>Follow the instructions under &#8220;Building and Testing&#8221; to make sure everything works.</li>
+</ol>
+
+<p>(Note: You can also download <a href="https://github.com/jamesshore/automatopia/archive/master.zip">a zip file of the source code</a>, but that won&#8217;t preserve permissions like Git does.)</p>
+
+<p>To customize the project for your needs:</p>
+
+<ol>
+<li>Modify <code>LICENSE.TXT</code> to contain your copyright and license.</li>
+<li>To cause the build to fail unless certain browsers are tested, edit <code>build/config/tested_browsers.js</code>. Otherwise, comment those lines out.</li>
+</ol>
+
+<h2 id="installingupdatingandremovingnpmpackages">Installing, Updating, and Removing npm Packages</h2>
+
+<p>This repository assumes you check your npm modules into git. (Why? <a href="http://www.letscodejavascript.com/v3/blog/2014/12/the_reliable_build">See here.</a>) Some modules come pre-installed. To update those packages, or install new ones, use the following process to ensure that you don&#8217;t check in binaries:</p>
+
+<ol>
+<li>Install the package without building it: <code>npm install &lt;package&gt; --ignore-scripts --save-dev</code> (or <code>--save</code> instead of <code>--save-dev</code>)</li>
+<li>Check in the new module: <code>git add . &amp;&amp; git commit -a</code></li>
+<li>Build the package: <code>npm rebuild</code></li>
+<li>Check for files created by the npm build: <code>git status</code></li>
+<li>Add any new files from the previous step to the <code>.gitignore</code> file and check it in.</li>
+</ol>
+
+<p>To update all npm dependencies at once:</p>
+
+<ol>
+<li>Delete the <code>node_modules</code> directory.</li>
+<li>Modify <code>.gitignore</code> and remove all references to npm module binaries.</li>
+<li>Install dependencies without building them: <code>npm install --ignore-scripts</code></li>
+<li>Check everything in: <code>git add . &amp;&amp; git commit -am &quot;Updated npm dependencies&quot;</code></li>
+<li>Rebuild everything: <code>npm rebuild</code></li>
+<li>Check for files created by the npm build: <code>git status</code></li>
+<li>Add any new files from the previous step to the <code>.gitignore</code> file and check it in.</li>
+</ol>
+
+<p>If you would rather not check your npm modules into git, you can remove them like this:</p>
+
+<ol>
+<li>Delete the node_modules directory.</li>
+<li>Modify <code>.gitignore</code> and replace the references to npm module binaries with <code>node_modules/</code>.</li>
+<li>Modify <code>build/scripts/run_jake.sh</code> and <code>build/scripts/run_jake.bat</code> to say <code>npm install</code> instead of <code>npm rebuild</code>.</li>
+<li>Check everything in: <code>git add . &amp;&amp; git commit -am &quot;Removed node_modules&quot;</code>.</li>
+</ol>
+
+<h2 id="buildingandtesting">Building and Testing</h2>
+
+<p>Before building for the first time:</p>
+
+<ol>
+<li>Install <a href="http://nodejs.org/download/">Node.js</a>.</li>
+<li>Download the project as described above.</li>
+<li>All commands must run from the root of the source tree.</li>
+</ol>
+
+<p>To build (and test):</p>
+
+<ol>
+<li>Run <code>./jake.sh karma</code> (Unix/Mac) or <code>jake karma</code> (Windows) to start the Karma server.</li>
+<li>Start the browsers you want to test and point each one at <code>http://localhost:9876</code>.</li>
+<li>Run <code>./jake.sh</code> (Unix/Mac) or <code>jake</code> (Windows) every time you want to build and test. Alternatively, use <code>./watch.sh</code> (Unix/Mac) or <code>watch</code> (Windows) to automatically run <code>jake</code> whenever files change.</li>
+</ol>
+
+<p>Add the <code>loose=true</code> parameter to relax Node and browser version checking.</p>
+
+<p>To run the app for manual testing:</p>
+
+<ol>
+<li>Run <code>./jake.sh run</code> (Unix/Mac) or <code>jake run</code> (Windows).</li>
+</ol>
+
+<h2 id="continuousintegration">Continuous Integration</h2>
+
+<p>To set up continuous integration for a team of developers:</p>
+
+<ol>
+<li>Choose a machine to be the integration machine.</li>
+<li>Follow the steps for &#8220;Building and Testing&#8221; on the integration machine.</li>
+<li>Run <code>git checkout -b integration</code> to create and checkout the integration branch.</li>
+</ol>
+
+<p>To set up each development workstation:</p>
+
+<ol>
+<li>Choose an easy-to-type name for the development workstation, such as <code>dev1</code>. Put a label on the machine with this name so you don&#8217;t forget it&#8211;you&#8217;ll use it when you integrate.</li>
+<li><em>On the integration machine</em>, run <code>git branch &lt;name&gt;</code> to create a branch for the development workstation.</li>
+<li>Clone the integration machine&#8217;s repository to the development workstation. (The steps here depend on your network configuration. Talk to your local Git expert.)</li>
+<li><em>On the development workstation,</em> run <code>git checkout &lt;name&gt;</code> to switch to the development branch.</li>
+<li>Now you can build and test as described above.</li>
+</ol>
+
+<p>To integrate:</p>
+
+<ol>
+<li>Run <code>./ci.sh usage</code> (Unix/Mac) or <code>ci usage</code> (Windows) for instructions.</li>
+</ol>
+
+<h2 id="deployingtoheroku">Deploying to Heroku</h2>
+
+<p>Before deploying for the first time:</p>
+
+<ol>
+<li>Follow the steps for &#8220;Continuous Integration&#8221; first.</li>
+<li>Sign up for a <a href="https://api.heroku.com/signup">Heroku account</a>.</li>
+<li><em>On the integration machine,</em> install the <a href="https://toolbelt.heroku.com/">Heroku Toolbelt</a>.</li>
+<li>Create a Heroku application: <code>heroku create &lt;app_name&gt;</code>. If you&#8217;ve already created the application, you can reconnect to it with <code>heroku git:remote --app &lt;app_name&gt;</code>.</li>
+<li><em>On a development machine,</em> change <code>PRODUCTION_URL</code> at the top of <code>build/scripts/deploy.jakefile</code> to <code>http://&lt;app_name&gt;.herokuapp.com</code>.</li>
+<li>Update the <code>engines</code> section of <code>package.json</code> to match your installed versions of Node and npm. (Use <code>node --version</code> and <code>npm --version</code> to get the version numbers.)</li>
+<li>Integrate as described above.</li>
+</ol>
+
+<p>To deploy:</p>
+
+<ol>
+<li><em>On the integration machine,</em> run <code>./deploy.sh latest</code> (Unix/Mac) or <code>deploy latest</code> (Windows) to deploy the integration branch to Heroku. The script will tag your git repository with <code>deploy-&lt;timestamp&gt;</code> if the deploy succeeds and passes the smoke tests.</li>
+</ol>
+
+<p>In case of a bad deployment:</p>
+
+<ol>
+<li><em>On the integration machine,</em> run <code>./deploy.sh rollback</code> (Unix/Mac) or <code>deploy rollback</code> (Windows) to do a band-aid rollback to the previous Heroku deployment. This rollback won&#8217;t &#8220;stick&#8221;, so you&#8217;ll need to deploy new code soon.</li>
+<li>If you aren&#8217;t able to deploy new code right away, choose a previous, good commit to deploy. <code>gitk</code> and the <code>deploy-&lt;timestamp&gt;</code> tags may be helpful here.</li>
+<li>Check out the commit: <code>git checkout &lt;commit_id&gt;</code></li>
+<li>Run <code>./deploy.sh head</code> (Unix/Mac) or <code>deploy head</code> (Windows) to deploy the commit to Heroku. As above, the script will tag the git repository with <code>deploy-&lt;timestamp&gt;</code> if the deploy succeeds and passes the smoke tests.</li>
+</ol>
+
+<h2 id="license">License</h2>
+
+<p>MIT License. See <code>LICENSE.TXT</code>.</p>
+
+</body>
+</html>
