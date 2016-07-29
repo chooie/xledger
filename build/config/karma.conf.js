@@ -18,7 +18,9 @@
       files: [
 	'src/client/**/*.js',
         'src/shared/**/*.js',
-        'vendor/chai-2.1.0.js'
+        'vendor/**/*.js'
+        // 'vendor/chai-2.1.0.js',
+        // 'node_modules/react/dist/react-with-addons.js'
       ],
 
 
@@ -34,7 +36,9 @@
       preprocessors: {
         'src/client/**/*.js': ['commonjs'],
         'src/shared/**/*.js': ['commonjs'],
-        'vendor/chai-2.1.0.js': ['commonjs']
+        'vendor/**/*.js': ['commonjs']
+        // 'vendor/chai-2.1.0.js': ['commonjs'],
+        // 'node_modules/react/dist/react-with-addons.js': ['commonjs']
       },
 
 
