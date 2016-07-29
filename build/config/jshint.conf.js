@@ -45,6 +45,9 @@
     undef: true,
     // Warn when you define but never use variables
     unused: true,
+
+    // Debugging
+    devel: true
   };
 
   exports.nodeOptions = merge(universalOptions, {

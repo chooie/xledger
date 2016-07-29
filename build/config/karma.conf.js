@@ -16,11 +16,11 @@
 
       // list of files / patterns to load in the browser
       files: [
+        'node_modules/lodash/lodash.js',
+        'node_modules/lodash/index.js',
 	'src/client/**/*.js',
         'src/shared/**/*.js',
-        'vendor/chai-2.1.0.js',
-        'vendor/react/react-15.2.1.js',
-        'vendor/react/react-dom-15.2.1.js'
+        'vendor/chai-2.1.0.js'
       ],
 
 
@@ -34,11 +34,11 @@
       // available preprocessors:
       //  https://npmjs.org/browse/keyword/karma-preprocessor
       preprocessors: {
+        'node_modules/lodash/lodash.js': ['commonjs'],
+        'node_modules/lodash/index.js': ['commonjs'],
         'src/client/**/*.js': ['commonjs'],
         'src/shared/**/*.js': ['commonjs'],
-        'vendor/chai-2.1.0.js': ['commonjs'],
-        'vendor/react/react-15.2.1.js': ['commonjs'],
-        'vendor/react/react-dom-15.2.1.js': ['commonjs']        
+        'vendor/chai-2.1.0.js': ['commonjs']
       },
 
 
