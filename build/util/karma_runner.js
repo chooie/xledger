@@ -3,84 +3,84 @@
 // Helper functions for running Karma
 
 (function() {
-	"use strict";
+  "use strict";
 
-	var path = require("path");
-	var sh = require("./sh.js");
-	var runner = require("karma/lib/runner");
-	var server = require("karma/lib/server");
+  var path = require("path");
+  var sh = require("./sh.js");
+  var runner = require("karma/lib/runner");
+  var server = require("karma/lib/server");
 
-	var KARMA = "node node_modules/karma/bin/karma";
+  var KARMA = "node node_modules/karma/bin/karma";
 
-	exports.serve = function(configFile, success, fail) {
-		var command = KARMA + " start " + configFile;
-		sh.run(command, success, function () {
-			fail("Could not start Karma server");
-		});
-	};
+  exports.serve = function(configFile, success, fail) {
+    var command = KARMA + " start " + configFile;
+    sh.run(command, success, function () {
+      fail("Could not start Karma server");
+    });
+  };
 
-	exports.runTests = function(options, success, fail) {
-		options.capture = options.capture || [];
-		var config = {
-			configFile: path.resolve(options.configFile),
-			browsers: options.capture,
-			singleRun: options.capture.length > 0
-		};
+  exports.runTests = function(options, success, fail) {
+    options.capture = options.capture || [];
+    var config = {
+      configFile: path.resolve(options.configFile),
+      browsers: options.capture,
+      singleRun: options.capture.length > 0
+    };
 
-		var runKarma = runner.run.bind(runner);
-		if (config.singleRun) {
-			runKarma = server.start.bind(server);
-		}
+    var runKarma = runner.run.bind(runner);
+    if (config.singleRun) {
+      runKarma = server.start.bind(server);
+    }
 
-		var stdout = new CapturedStdout();
-		runKarma(config, function(exitCode) {
-			stdout.restore();
+    var stdout = new CapturedStdout();
+    runKarma(config, function(exitCode) {
+      stdout.restore();
 
-			if (exitCode) {
+      if (exitCode) {
         return fail("Client tests failed (did you start the Karma server?)");
       }
-			var browserMissing = checkRequiredBrowsers(options.browsers, stdout);
-			if (browserMissing && options.strict) {
+      var browserMissing = checkRequiredBrowsers(options.browsers, stdout);
+      if (browserMissing && options.strict) {
         return fail("Did not test all browsers");
       }
-			if (stdout.capturedOutput.indexOf("TOTAL: 0 SUCCESS") !== -1) {
+      if (stdout.capturedOutput.indexOf("TOTAL: 0 SUCCESS") !== -1) {
         return fail("No tests were run!");
       }
 
-			return success();
-		});
-	};
+      return success();
+    });
+  };
 
-	function checkRequiredBrowsers(requiredBrowsers, stdout) {
-		var browserIsMissing = false;
-		requiredBrowsers.forEach(function(browser) {
+  function checkRequiredBrowsers(requiredBrowsers, stdout) {
+    var browserIsMissing = false;
+    requiredBrowsers.forEach(function(browser) {
       var browserIsFound = lookForBrowser(browser, stdout.capturedOutput);
       browserIsMissing = browserIsFound || browserIsMissing;
-		});
-		return browserIsMissing;
-	}
+    });
+    return browserIsMissing;
+  }
 
-	function lookForBrowser(browser, output) {
-		var missing = output.indexOf(browser + ": Executed") === -1;
-		if (missing) {
+  function lookForBrowser(browser, output) {
+    var missing = output.indexOf(browser + ": Executed") === -1;
+    if (missing) {
       console.log("Warning: " + browser + " was not tested!");
     }
-		return missing;
-	}
+    return missing;
+  }
 
-	function CapturedStdout() {
-		var self = this;
-		self.oldStdout = process.stdout.write;
-		self.capturedOutput = "";
+  function CapturedStdout() {
+    var self = this;
+    self.oldStdout = process.stdout.write;
+    self.capturedOutput = "";
 
-		process.stdout.write = function(data) {
-			self.capturedOutput += data;
-			self.oldStdout.apply(this, arguments);
-		};
-	}
+    process.stdout.write = function(data) {
+      self.capturedOutput += data;
+      self.oldStdout.apply(this, arguments);
+    };
+  }
 
-	CapturedStdout.prototype.restore = function() {
-		process.stdout.write = this.oldStdout;
-	};
+  CapturedStdout.prototype.restore = function() {
+    process.stdout.write = this.oldStdout;
+  };
 
 }());

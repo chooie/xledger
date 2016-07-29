@@ -3,9 +3,9 @@
 // Helper functions for running processes.
 
 (function() {
-	"use strict";
+  "use strict";
 
-	var jake = require("jake");
+  var jake = require("jake");
 
   module.exports = {
     runMany: runMany,
@@ -29,24 +29,24 @@
   }
 
   function run(oneCommand, successCallback, failureCallback) {
-		var stdout = "";
-		var child = jake.createExec(oneCommand);
-		child.on("stdout", function(data) {
-			process.stdout.write(data);
-			stdout += data;
-		});
-		child.on("stderr", function(data) {
-			process.stderr.write(data);
-		});
-		child.on("cmdEnd", function() {
-			successCallback(stdout);
-		});
-		child.on("error", function() {
-			failureCallback(stdout);
-		});
+    var stdout = "";
+    var child = jake.createExec(oneCommand);
+    child.on("stdout", function(data) {
+      process.stdout.write(data);
+      stdout += data;
+    });
+    child.on("stderr", function(data) {
+      process.stderr.write(data);
+    });
+    child.on("cmdEnd", function() {
+      successCallback(stdout);
+    });
+    child.on("error", function() {
+      failureCallback(stdout);
+    });
 
-		console.log("> " + oneCommand);
-		child.run();
-	}
+    console.log("> " + oneCommand);
+    child.run();
+  }
 
 }());

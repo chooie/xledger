@@ -1,8 +1,8 @@
 (function() {
   "use strict";
 
-  var React = require("react");
-  var ReactDOM = require("react-dom");
+  var React = require("../../shared/react.js").React;
+  var ReactDOM = require("../../shared/react.js").ReactDOM;
   var _ = require("lodash");
   
   var d = ReactDOM;
