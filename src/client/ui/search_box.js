@@ -1,9 +1,12 @@
 (function() {
   "use strict";
 
-  // var React = require("../../shared/react.js").React;
-  // var ReactDOM = require("../../shared/react.js").ReactDOM;
-  var _ = require("../../shared/lodash");
+  // var React = require("../../shared/react").Reat;
+  // var ReactDOM = require("react-dom");
+      // require("../../shared/react.js").ReactDOM;
+  var _ = require("lodash");
+
+  // console.log(React);
 
   console.log(_.assign({ 'a': 1 }, { 'b': 2 }, { 'c': 3 }));
   
