@@ -3,73 +3,76 @@
   <!-- smoke test marker: automatopia home page -->
   <head>
     <title>DOM Testing Example</title>
+    <link rel="stylesheet" href="content/style.css"/>
+  </head>
+  <body>
+    <!-- Note: This page is for manual demonstration of the example code. It's
+         not tested like real production code should be. -->
 
-</style>
-</head>
-<body>
-  <!-- Note: This page is for manual demonstration of the example code. It's
-       not tested like real production code should be. -->
+    <div id="wrapper">
+      <h1>Xledger sample</h1>
+      <section style="" id="app"></section>
 
-  <div id="wrapper">
-    <h1>Xledger sample</h1>
-    <section style="" id="app"></section>
+      <section id="instructions">
+        <h3>Instructions</h3>
+        <p>
+          The assignment is to implement the <strong>mySearchFn</strong> function.
+          This function is called whenever the input search term changes, and is
+          used to populate the searchResults, which then get re-rendered. The items to
+          search through are in a small array in the SearchData variable, and they do
+          not change.
+        </p>
+        <p>
+          The shape of the return value of the function is like this (say the search
+          term is "jou"):</p>
+        <pre>
+          [{value: "Journal Batch", matches [{start: 0, end: 3}]},
+          {value: "Journal Entry", matches: [{start: 0, end: 3}]}
+          ...
+          ]
+        </pre>
+        <p>
+          The return array should be sorted so that the most relevant results are
+          first, then alphabetically. Relevancy is established and ranked by its
+          position on this list:
+        </p>
+        <ol>
+          <li>Exact Matches</li>
+          <li>Matches at the beginning</li>
+          <li>Matches at the end</li>
+          <li>Partial beginning of word match ("jo en" would match
+            "Journal Entry List")</li>
+          <li>Matches in the middle</li>
+        </ol>
 
-    <section id="instructions">
-      <h3>Instructions</h3>
-      <p>
-        The assignment is to implement the <strong>mySearchFn</strong> function.
-        This function is called whenever the input search term changes, and is
-        used to populate the searchResults, which then get re-rendered. The items to
-        search through are in a small array in the SearchData variable, and they do
-        not change.
-      </p>
-      <p>
-        The shape of the return value of the function is like this (say the search
-        term is "jou"):</p>
-      <pre>
-        [{value: "Journal Batch", matches [{start: 0, end: 3}]},
-        {value: "Journal Entry", matches: [{start: 0, end: 3}]}
-        ...
-        ]
-      </pre>
-      <p>
-        The return array should be sorted so that the most relevant results are
-        first, then alphabetically. Relevancy is established and ranked by its
-        position on this list:
-      </p>
-      <ol>
-        <li>Exact Matches</li>
-        <li>Matches at the beginning</li>
-        <li>Matches at the end</li>
-        <li>Partial beginning of word match ("jo en" would match
-          "Journal Entry List")</li>
-        <li>Matches in the middle</li>
-      </ol>
+        <p>
+          Some conflicts wouldn't be completely clear how to resolve just from that
+          list (E.g., what would win, a beginning match of "J", or an ending match
+          of "Batch"?), so you'll have to use your judgement to think what would be
+          intuitive for users.
+        </p>
 
-      <p>
-        Some conflicts wouldn't be completely clear how to resolve just from that
-        list (E.g., what would win, a beginning match of "J", or an ending match
-        of "Batch"?), so you'll have to use your judgement to think what would be
-        intuitive for users.
-      </p>
-
-      <h4>Rules</h4>
-      <ol>
-        <li>Only your own code, working by yourself</li>
-        <li>Utility libraries like lodash, Ramda, etc are ok, but no other
-          libraries.</li>
-        <li>Ok to use other languages supported by Codepen, like CoffeeScript</li>
-      </ol>
-      
-      <h4>Guidelines/tips</h4>
-      <ol>
-        <li>Only care about the <strong>mySearchFn</strong> function - not css,
-          etc</li>
-        <li>It may be easier to return try filtering the results without providing
-          the matches array initially.</li>  
-      </ol>
-    </section>
-  </div>
-  <script src="bundle.js" type="text/javascript"></script>
-</body>
+        <h4>Rules</h4>
+        <ol>
+          <li>Only your own code, working by yourself</li>
+          <li>Utility libraries like lodash, Ramda, etc are ok, but no other
+            libraries.</li>
+          <li>Ok to use other languages supported by Codepen, like CoffeeScript</li>
+        </ol>
+        
+        <h4>Guidelines/tips</h4>
+        <ol>
+          <li>Only care about the <strong>mySearchFn</strong> function - not css,
+            etc</li>
+          <li>It may be easier to return try filtering the results without providing
+            the matches array initially.</li>  
+        </ol>
+      </section>
+    </div>
+    <script src="bundle.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var search = require("search");
+      search.run();
+    </script>
+  </body>
 </html>

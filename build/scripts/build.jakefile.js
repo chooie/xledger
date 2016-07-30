@@ -12,7 +12,7 @@
   var jshint = require("simplebuild-jshint");
   var mocha = require("../util/mocha_runner.js");
   var karma = require("../util/karma_runner.js");
-  var browserify = require("../util/browserify_runner.js");
+  // var browserify = require("../util/browserify_runner.js");
   var version = require("../util/version_checker.js");
 
   var browsers = require("../config/tested_browsers.js");
@@ -128,18 +128,29 @@
       paths.clientDir + "/*.html", paths.clientDir + "/*.css",
       paths.clientDistDir
     );
+
+    shell.cp(
+      "-R",
+      paths.clientContentDir,
+      paths.clientDistDir
+    );
   });
 
   task("bundleClientJs", [ paths.clientDistDir ], function() {
     console.log("Bundling browser code with Browserify: .");
-    browserify.bundle({
-      entry: paths.clientEntryPoint,
-      outfile: paths.clientDistBundle,
-      options: {
-	standalone: "example",
-	debug: true
-      }
-    }, complete, fail);
+    jake.exec(
+        "node node_modules/browserify/bin/cmd.js -r ./" +
+        paths.clientEntryPoint + ":search -o " + paths.clientDistBundle,
+        { interactive: true },
+        complete);
+    // browserify.bundle({
+    //   entry: paths.clientEntryPoint,
+    //   outfile: paths.clientDistBundle,
+    //   options: {
+    //     standalone: "example",
+    //     debug: true
+    //   }
+    // }, complete, fail);
   }, { async: true });
 
   task("buildServer", function() {
