@@ -1,10 +1,10 @@
 (function() {
   "use strict";
   
-  var react = require("react");
-  // var reactDOM = require("../../node_modules/react-dom/index");
+  // var react = require("react");
+  // var reactDOM = require("react-dom");
 
-  console.log(react);
+  
 
   // exports.React = react;
   // exports.ReactDOM = reactDOM;
