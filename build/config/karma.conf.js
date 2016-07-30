@@ -17,10 +17,7 @@
       files: [
         'node_modules/lodash/lodash.js',
         'node_modules/lodash/index.js',
-        'node_modules/react/dist/react.js',
-        'node_modules/react/index.js',
-        'node_modules/react-dom/dist/react-dom.js',
-        'node_modules/react-dom/index.js',
+        'vendor/react-0.13.0.js',
 	'src/client/**/*.js',
         'src/shared/**/*.js',
         'vendor/chai-2.1.0.js'
@@ -39,10 +36,7 @@
       preprocessors: {
         'node_modules/lodash/lodash.js': ['commonjs'],
         'node_modules/lodash/index.js': ['commonjs'],
-        'node_modules/react/dist/react.js': ['commonjs'],
-        'node_modules/react/index.js': ['commonjs'],
-        'node_modules/react-dom/dist/react-dom.js': ['commonjs'],
-        'node_modules/react-dom/index.js': ['commonjs'],
+        'vendor/react-0.13.0.js': ['commonjs'],
         'src/client/**/*.js': ['commonjs'],
         'src/shared/**/*.js': ['commonjs'],
         'vendor/chai-2.1.0.js': ['commonjs']

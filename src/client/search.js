@@ -7,6 +7,8 @@
     return "Hello";
   };
 
-  ui.run();
+  exports.run = function() {
+    ui.run();
+  };
   
 }());

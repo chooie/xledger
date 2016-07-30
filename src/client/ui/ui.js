@@ -4,11 +4,10 @@
   var search = require("../search.js");
   var SearchBox = require("./search_box");
 
-  var React = require("react");
-  var ReactDOM = require("react-dom");
+  var React = require("../../shared/react");
 
   exports.run = function() {
-    ReactDOM.render(React.createElement(SearchBox, {searchFn: search.search}), 
+    React.render(React.createElement(SearchBox, {searchFn: search.search}), 
                     document.getElementById("app"));
   };
 }());

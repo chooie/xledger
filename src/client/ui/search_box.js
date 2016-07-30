@@ -1,12 +1,10 @@
 (function() {
   "use strict";
 
-  var React = require("react");
-  var ReactDOM = require("react-dom");
+  var React = require("../../shared/react");
+  var d = React.DOM;
   var _ = require("lodash");
   
-  var d = ReactDOM;
-
   var controlWidth = 350;
 
   var Styles = {
@@ -19,7 +17,7 @@
     }
   };
 
-  module.exports = React.createClass({
+  var SearchBox = React.createClass({
     getInitialState: function() {
       return { searchTerm: '', searchResults: null };
     },
@@ -77,5 +75,7 @@
                      searchResults: newSearchResults});
     }
   });
+
+  module.exports = SearchBox;
   
 }());

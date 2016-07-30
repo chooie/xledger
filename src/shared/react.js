@@ -1,12 +1,8 @@
 (function() {
   "use strict";
   
-  // var react = require("react");
-  // var reactDOM = require("react-dom");
-
+  var react = require("../../vendor/react-0.13.0");
   
-
-  // exports.React = react;
-  // exports.ReactDOM = reactDOM;
+  module.exports = react;
   
 }());
