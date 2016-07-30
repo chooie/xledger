@@ -9,10 +9,8 @@
       // base path, that will be used to resolve files and exclude
       basePath: '../..',
 
-      plugins: ['karma-mocha', 'karma-browserify', 'karma-commonjs'],
-
       // frameworks to use
-      frameworks: ['mocha', 'browserify', 'commonjs'],
+      frameworks: ['mocha', 'commonjs'],
 
 
       // list of files / patterns to load in the browser

@@ -19,7 +19,7 @@
     }
   };
 
-  exports.SearchBox = React.createClass({
+  module.exports = React.createClass({
     getInitialState: function() {
       return { searchTerm: '', searchResults: null };
     },
