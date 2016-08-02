@@ -16,12 +16,8 @@
                       matches: [{start: 0, end: 3}]}];
 
       var beginningMatches = search.getBeginningMatches(SearchData, "jou");
-      assert.isTrue(_.isEqual(matches, firstN(beginningMatches, 3)));
+      assert.isTrue(_.isEqual(matches, _.take(beginningMatches, 3)));
     });
   });
-
-  function firstN(arr, n) {
-    return arr.slice(0, n);
-  }
 
 }());
