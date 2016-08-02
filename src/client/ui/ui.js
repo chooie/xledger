@@ -6,8 +6,9 @@
 
   var React = require("../../shared/react");
 
-  exports.run = function() {
-    React.render(React.createElement(SearchBox, {searchFn: search.search}), 
+  exports.run = function(searchData) {
+    var searchFn = search.search.bind(null, searchData);
+    React.render(React.createElement(SearchBox, {searchFn: searchFn}),
                     document.getElementById("app"));
   };
 }());
