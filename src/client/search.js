@@ -6,7 +6,8 @@
 
   module.exports = {
     search: search,
-    getBeginningMatches: getBeginningMatches
+    getExactMatches: getExactMatches,
+    getBeginningMatches: getBeginningMatches,
   };
 
   function search(searchData, searchTerm) {
@@ -33,6 +34,28 @@
     return !searchTerm || searchTerm.length === 0;
   }
 
+  function getExactMatches(searchData, searchTerm) {
+    var exactMatches = [];
+    var entry;
+
+    for (var i = 0; i < searchData.length; i += 1) {
+      entry = searchData[i];
+
+      if (isExactMatch(searchTerm, entry)) {
+        exactMatches.push({value: entry,
+                           matches: [{start: 0, end: searchTerm.length}]});
+      }
+    }
+    return exactMatches;
+  }
+
+  function isExactMatch(searchTerm, searchDataEntry) {
+    var lowerCaseSearchTerm = searchTerm.toLowerCase(),
+        lowerCaseSearchDataEntry = searchDataEntry.toLowerCase();
+
+    return lowerCaseSearchTerm === lowerCaseSearchDataEntry;
+  }
+
   function getBeginningMatches(searchData, searchTerm) {
     var beginningMatches = [];
     var entry;
@@ -41,7 +64,7 @@
       entry = SearchData[i];
       if (isBeginningMatch(searchTerm, entry)) {
         beginningMatches.push({value: entry,
-                            matches: [{start: 0, end: searchTerm.length}]});
+                               matches: [{start: 0, end: searchTerm.length}]});
       }
     }
     return beginningMatches;
@@ -51,7 +74,7 @@
     var lowerCaseSearchTerm = searchTerm.toLowerCase(),
         lowerCaseSearchDataEntry = searchDataEntry.toLowerCase(),
         entryUpToSearchLength =
-          lowerCaseSearchDataEntry.substr(0, searchTerm.length);
+        lowerCaseSearchDataEntry.substr(0, searchTerm.length);
     return lowerCaseSearchTerm === entryUpToSearchLength;
   }
 

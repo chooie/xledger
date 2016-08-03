@@ -7,6 +7,17 @@
   var _ = require("../shared/lodash.js");
 
   describe("Search", function() {
+    it("gets exact matches for 'jou'", function() {
+      var exactMatches = search.getExactMatches(SearchData, "jou");
+      assert.isTrue(_.isEqual([], exactMatches));
+    });
+
+    it("gets exact matches for 'Journal'", function() {
+      var exactMatches = search.getExactMatches(SearchData, "journal");
+      var singleMatch = {value: "Journal", matches: [{start: 0, end: 7}]};
+      assert.isTrue(_.isEqual([singleMatch], exactMatches));
+    });
+    
     it("gets beginning matches for 'jou'", function() {
       var matches = [{value: "Journal",
                       matches: [{start: 0, end: 3}]},
