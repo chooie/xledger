@@ -29,6 +29,15 @@
       var beginningMatches = search.getBeginningMatches(SearchData, "jou");
       assert.isTrue(_.isEqual(matches, _.take(beginningMatches, 3)));
     });
+
+    it("gets ending matches for 'nal'", function() {
+      var matches = [{value: "CR Test 2 Invoice Journal",
+                      matches: [{start: 22, end: 25}]},
+                     {value: "Journal",
+                      matches: [{start: 4, end: 7}]}]; // Todo
+      var endingMatches = search.getEndingMatches(SearchData, "nal");
+      assert.isTrue(_.isEqual(matches, endingMatches));
+    });
   });
 
 }());
