@@ -34,7 +34,7 @@
       var matches = [{value: "CR Test 2 Invoice Journal",
                       matches: [{start: 22, end: 25}]},
                      {value: "Journal",
-                      matches: [{start: 4, end: 7}]}]; // Todo
+                      matches: [{start: 4, end: 7}]}];
       var endingMatches = search.getEndingMatches(SearchData, "nal");
       assert.isTrue(_.isEqual(matches, endingMatches));
     });

@@ -37,16 +37,16 @@
 
   function getExactMatches(searchData, searchTerm) {
     var exactMatches = [];
-    var entry;
 
-    for (var i = 0; i < searchData.length; i += 1) {
-      entry = searchData[i];
-
+    searchData.forEach(function(entry) {
+      var match;
       if (isExactMatch(searchTerm, entry)) {
-        exactMatches.push(createWordMatch(entry, [{start: 0,
-                                                   end: searchTerm.length}]));
+        match = createWordMatch(entry, [{start: 0,
+                                         end: searchTerm.length}]);
+        exactMatches.push(match);
       }
-    }
+    });
+
     return exactMatches;
   }
 
@@ -59,16 +59,15 @@
 
   function getBeginningMatches(searchData, searchTerm) {
     var beginningMatches = [];
-    var entry;
 
-    for (var i = 0; i < searchData.length; i += 1) {
-      entry = searchData[i];
+    searchData.forEach(function(entry) {
       if (isBeginningMatch(searchTerm, entry)) {
         beginningMatches.push(createWordMatch(entry,
                                               [{start: 0,
                                                 end: searchTerm.length}]));
       }
-    }
+    });
+
     return beginningMatches;
   }
 
@@ -76,20 +75,19 @@
     var lowerCaseSearchTerm = searchTerm.toLowerCase(),
         lowerCaseSearchDataEntry = searchDataEntry.toLowerCase(),
         entryUpToSearchLength =
-          lowerCaseSearchDataEntry.substr(0, searchTerm.length);
+        lowerCaseSearchDataEntry.substr(0, searchTerm.length);
     return lowerCaseSearchTerm === entryUpToSearchLength;
   }
 
   function getEndingMatches(searchData, searchTerm) {
     var endingMatches = [];
-    var entry;
 
-    for (var i = 0; i < searchData.length; i += 1) {
-      entry = searchData[i];
+    searchData.forEach(function(entry) {
       if (isEndingMatch(searchTerm, entry)) {
         endingMatches.push(createEndingMatch(searchTerm, entry));
       }
-    }
+    });
+
     return endingMatches;
   }
 
@@ -112,12 +110,12 @@
     return createWordMatch(searchDataEntry, rangeArr);
   }
 
- function createWordMatch(wordValue, matchRanges) {
-   return {
-     value: wordValue,
-     matches: matchRanges
-   };
- }
+  function createWordMatch(wordValue, matchRanges) {
+    return {
+      value: wordValue,
+      matches: matchRanges
+    };
+  }
 
   exports.run = function() {
     ui.run(SearchData);
