@@ -58,6 +58,13 @@
       matchIn(matches, {value: "Absence Income Statement",
                         matches: [{start: 0, end: 3}, {start: 15, end: 19}]});
     });
+
+    it("gets matches in the middle for 'rnal'", function() {
+      var matches = search.getMiddleMatches(SearchData, "rnal");
+
+      matchIn(matches, {value: "Journal",
+                        matches: [{start: 3, end: 7}]});
+    });
   });
 
   function isEqual(first, second) {

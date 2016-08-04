@@ -10,7 +10,8 @@
     getExactMatches: getExactMatches,
     getBeginningMatches: getBeginningMatches,
     getEndingMatches: getEndingMatches,
-    getPartialBeginningOfWordsMatches: getPartialBeginningOfWordsMatches
+    getPartialBeginningOfWordsMatches: getPartialBeginningOfWordsMatches,
+    getMiddleMatches: getMiddleMatches
   };
 
   function search(dataToSearch, searchTerm) {
@@ -202,6 +203,24 @@
 
   function containsMultipleWords(arr) {
     return arr.length > 1;
+  }
+
+  function getMiddleMatches(searchData, searchWord) {
+    var matches = [];
+
+    searchData.forEach(function(entry) {
+      var entryUpper = entry.toUpperCase();
+      var searchWordUpper = searchWord.toUpperCase();
+      var matchIndex = entryUpper.indexOf(searchWordUpper);
+
+      if (matchIndex > 0) {
+        matches.push(createWordMatch(entry,
+                                     [{start: matchIndex,
+                                       end: matchIndex + searchWord.length}]));
+      }
+    });
+
+    return matches;
   }
 
   function createWordMatch(wordValue, matchRanges) {
