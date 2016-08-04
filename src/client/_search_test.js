@@ -9,13 +9,13 @@
   describe("Search", function() {
     it("gets exact matches for 'jou'", function() {
       var exactMatches = search.getExactMatches(SearchData, "jou");
-      assert.isTrue(_.isEqual([], exactMatches));
+      isEqual([], exactMatches);
     });
 
     it("gets exact matches for 'Journal'", function() {
       var exactMatches = search.getExactMatches(SearchData, "journal");
       var singleMatch = {value: "Journal", matches: [{start: 0, end: 7}]};
-      assert.isTrue(_.isEqual([singleMatch], exactMatches));
+      isEqual([singleMatch], exactMatches);
     });
     
     it("gets beginning matches for 'jou'", function() {
@@ -27,7 +27,7 @@
                       matches: [{start: 0, end: 3}]}];
 
       var beginningMatches = search.getBeginningMatches(SearchData, "jou");
-      assert.isTrue(_.isEqual(matches, _.take(beginningMatches, 3)));
+      isEqual(matches, _.take(beginningMatches, 3));
     });
 
     it("gets ending matches for 'nal'", function() {
@@ -36,8 +36,24 @@
                      {value: "Journal",
                       matches: [{start: 4, end: 7}]}];
       var endingMatches = search.getEndingMatches(SearchData, "nal");
-      assert.isTrue(_.isEqual(matches, endingMatches));
+      isEqual(matches, endingMatches);
+    });
+
+    it("gets partial beginning of words matches for 'jo en'", function() {
+      var firstMatch = {value: "Journal Entry",
+                        matches: [{start: 0, end: 2}, {start: 8, end: 10}]},
+          results = search.getPartialBeginningOfWordsMatches(SearchData,
+                                                             "jo en");
+      isEqual(firstMatch, _.head(results));
+    });
+
+    it("gets partial beginning of words matches for 'jo'", function() {
+      isEqual([], search.getPartialBeginningOfWordsMatches(SearchData, "jo"));
     });
   });
+
+  function isEqual(first, second) {
+    assert.isTrue(_.isEqual(first, second));
+  }
 
 }());
