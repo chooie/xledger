@@ -1,10 +1,10 @@
 (function() {
   "use strict";
 
-  var assert = require("../shared/assert.js");
+  var assert = require("../shared/assert");
   var search = require("./search.js");
   var SearchData = require("./search_data");
-  var _ = require("../shared/lodash.js");
+  var _ = require("../shared/lodash");
 
   describe("Search", function() {
     it("gets exact matches for 'jou'", function() {

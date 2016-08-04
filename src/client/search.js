@@ -11,7 +11,8 @@
     getBeginningMatches: getBeginningMatches,
     getEndingMatches: getEndingMatches,
     getPartialBeginningOfWordsMatches: getPartialBeginningOfWordsMatches,
-    getMiddleMatches: getMiddleMatches
+    getMiddleMatches: getMiddleMatches,
+    run: run
   };
 
   function search(dataToSearch, searchTerm) {
@@ -19,15 +20,18 @@
       return [];
     }
 
-    // TODO: Exact matches
-
+    var exactMatches = getExactMatches(dataToSearch, searchTerm);
     var beginningMatches = getBeginningMatches(dataToSearch, searchTerm);
+    var endingMatches = getEndingMatches(dataToSearch, searchTerm);
+    var partialBeggingsMatches = getPartialBeginningOfWordsMatches(dataToSearch,
+                                                                  searchTerm);
+    var middleMatches = getMiddleMatches(dataToSearch, searchTerm);
 
-    // TODO: Matches at the end
-    //       Partial beginning of word match
-    //       Matches in the middle
-
-    var matches = beginningMatches;
+    var matches = _.concat(exactMatches,
+                          beginningMatches,
+                          endingMatches,
+                          partialBeggingsMatches,
+                          middleMatches);
 
     var mostRelevantSubset = matches.slice(0, 20);
 
@@ -230,8 +234,8 @@
     };
   }
 
-  exports.run = function() {
-    ui.run(SearchData);
-  };
+  function run() {
+    ui.run(SearchData, search);
+  }
 
 }());
