@@ -3,6 +3,7 @@
 
   var ui = require("./ui/ui");
   var SearchData = require("./search_data");
+  var _ = require("../shared/lodash.js");
 
   module.exports = {
     search: search,
@@ -18,7 +19,7 @@
     }
 
     // TODO: Exact matches
-    
+
     var beginningMatches = getBeginningMatches(dataToSearch, searchTerm);
 
     // TODO: Matches at the end
@@ -127,26 +128,66 @@
         return;
       }
 
-      var match = createWordMatch(entry, []);
+      var match = getMatchForEntry(entry, searchWords);
 
-      searchWords.forEach(function(searchWord, i) {
-        var equivalentEntryWord = entryWords[i],
-            spacesUpToEntryWord = getIndexesUpToWord(entryWords, i),
-            start = spacesUpToEntryWord,
-            end = start + searchWord.length;
-        
-        if (isBeginningMatch(searchWord, equivalentEntryWord)) {
-          
-          match.matches.push({start: start, end: end});
-        }
-      });
-
-      if (match.matches.length === searchWords.length) {
+      if (match && match.matches.length === searchWords.length) {
         matches.push(match);
       }
     });
 
     return matches;
+  }
+
+  function getMatchForEntry(entry, searchWords) {
+    var entryWords = entry.split(" ");
+    var match = createWordMatch(entry, []);
+
+    var firstSearchWord = _.head(searchWords);
+
+    var firstMatchingWordIndex = getIndexOfFirstSearchWordMatch(firstSearchWord,
+                                                                entryWords);
+    if (firstMatchingWordIndex < 0) {
+      return;
+    }
+
+    var spacesUpToMatchingWord = getIndexesUpToWord(entryWords,
+                                                    firstMatchingWordIndex),
+        start = spacesUpToMatchingWord,
+        end = start + firstSearchWord.length;
+
+    match.matches.push({start: start, end: end});
+
+    var latestIndex = firstMatchingWordIndex;
+
+    var searchWordsExceptFirst = _.tail(searchWords);
+
+    searchWordsExceptFirst.forEach(function(searchWord) {
+      var spacesUpToEntryWord,
+          start,
+          end;
+      for (var i = 0; i < entryWords.length; i += 1) {
+        if (isBeginningMatch(searchWord, entryWords[i]) &&
+            i > latestIndex) {
+          spacesUpToEntryWord = getIndexesUpToWord(entryWords, i);
+          start = spacesUpToEntryWord;
+          end = start + searchWord.length;
+          match.matches.push({start: start, end: end});
+          latestIndex = i;
+          return;
+        }
+      }
+    });
+
+    return match;
+  }
+
+  function getIndexOfFirstSearchWordMatch(firstSearchWord, entryWords) {
+    for (var i = 0; i < entryWords.length; i += 1) {
+      if (isBeginningMatch(firstSearchWord, entryWords[i])) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   function getIndexesUpToWord(entryWords, index) {
@@ -173,5 +214,5 @@
   exports.run = function() {
     ui.run(SearchData);
   };
-  
+
 }());

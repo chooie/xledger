@@ -50,10 +50,22 @@
     it("gets partial beginning of words matches for 'jo'", function() {
       isEqual([], search.getPartialBeginningOfWordsMatches(SearchData, "jo"));
     });
+
+    it("gets partial beginning of words matches for 'abs stat'", function() {
+      var matches = search.getPartialBeginningOfWordsMatches(SearchData,
+                                                             "abs stat");
+
+      matchIn(matches, {value: "Absence Income Statement",
+                        matches: [{start: 0, end: 3}, {start: 15, end: 19}]});
+    });
   });
 
   function isEqual(first, second) {
     assert.isTrue(_.isEqual(first, second));
+  }
+
+  function matchIn(arr, item) {
+    assert.isTrue(_.some(arr, item));
   }
 
 }());
