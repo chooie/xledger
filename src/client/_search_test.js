@@ -65,6 +65,38 @@
       matchIn(matches, {value: "Journal",
                         matches: [{start: 3, end: 7}]});
     });
+
+    it("collects matching value results", function() {
+      var searchTerm = "account period hello";
+      var expected = {value: "Account", matches: [{start: 0, end: 7}]};
+      var matches = search.search(SearchData, searchTerm);
+      var actual = search.combineDuplicateMatchesForValue(matches, "Account");
+      isEqual(expected, actual);
+    });
+
+    it("consolidates duplicate matches", function() {
+      var matches = [
+        {value: "foo", matches: [{start: 0, end: 1}]},
+        {value: "bar", matches: [{start: 0, end: 1}]},
+        {value: "foo", matches: [{start: 2, end: 3}]},
+        {value: "baz", matches: [{start: 0, end: 1}]}
+      ];
+      var desired = [
+        {value: "foo", matches: [{start: 0, end: 1}, {start: 2, end: 3}]},
+        {value: "bar", matches: [{start: 0, end: 1}]},
+        {value: "baz", matches: [{start: 0, end: 1}]}
+      ];
+      var actual = search.consolidateDuplicates(matches);
+      isEqual(desired, actual);
+    });
+  });
+
+  describe("Util", function() {
+    it("sorts by word length", function() {
+      var before = ["a", "word", "length", "test"],
+          after = ["length", "test", "word", "a"];
+      isEqual(after, search.sortByWordLength(before));
+    });
   });
 
   function isEqual(first, second) {

@@ -12,10 +12,51 @@
     getEndingMatches: getEndingMatches,
     getPartialBeginningOfWordsMatches: getPartialBeginningOfWordsMatches,
     getMiddleMatches: getMiddleMatches,
+    sortByWordLength: sortByWordLength,
+    combineDuplicateMatchesForValue: combineDuplicateMatchesForValue,
+    consolidateDuplicates: consolidateDuplicates,
     run: run
   };
 
   function search(dataToSearch, searchTerm) {
+
+    var matches = getSearchResultsForWholeTerm(dataToSearch, searchTerm);
+
+    var desiredResultCount = 20;
+
+    var mostRelevantSubset = matches.slice(0, desiredResultCount);
+
+    var searchTermWords = searchTerm.split(" ");
+
+    if (mostRelevantSubset.length === desiredResultCount ||
+        searchTermWords.length === 1) {
+      return mostRelevantSubset;
+    }
+
+    var searchTermWordsByLength = sortByWordLength(searchTermWords);
+
+    var matchesForEachWord = searchTermWordsByLength.map(function(word) {
+      return getSearchResultsForWholeTerm(dataToSearch, word);
+    });
+
+    matches = _.concat(matches, _.flatten(matchesForEachWord));
+
+    var matchesLessDuplicates = consolidateDuplicates(matches);
+
+    mostRelevantSubset = matchesLessDuplicates.slice(0, desiredResultCount);
+
+    return mostRelevantSubset;
+  }
+
+  function sortByWordLength(words) {
+    var wordsAsc =  _.sortBy(words, function(word) {
+      return word.length;
+    });
+
+    return _.reverse(wordsAsc);
+  }
+
+  function getSearchResultsForWholeTerm(dataToSearch, searchTerm) {
     if (searchIsEmpty(searchTerm)) {
       return [];
     }
@@ -24,18 +65,15 @@
     var beginningMatches = getBeginningMatches(dataToSearch, searchTerm);
     var endingMatches = getEndingMatches(dataToSearch, searchTerm);
     var partialBeggingsMatches = getPartialBeginningOfWordsMatches(dataToSearch,
-                                                                  searchTerm);
+                                                                   searchTerm);
     var middleMatches = getMiddleMatches(dataToSearch, searchTerm);
 
     var matches = _.concat(exactMatches,
-                          beginningMatches,
-                          endingMatches,
-                          partialBeggingsMatches,
-                          middleMatches);
-
-    var mostRelevantSubset = matches.slice(0, 20);
-
-    return mostRelevantSubset;
+                           beginningMatches,
+                           endingMatches,
+                           partialBeggingsMatches,
+                           middleMatches);
+    return matches;
   }
 
   function searchIsEmpty(searchTerm) {
@@ -55,6 +93,38 @@
     });
 
     return exactMatches;
+  }
+
+  function consolidateDuplicates(matches) {
+    var matchesLessDuplicates = [];
+    var matchesWithDuplicates = matches;
+    var currentMatch;
+    var currentValueMatches;
+    var consolidatedMatch;
+
+    while (!_.isEmpty(matchesWithDuplicates)) {
+      currentMatch = _.first(matchesWithDuplicates);
+      currentValueMatches = _.filter(matchesWithDuplicates,
+                                     {value: currentMatch.value});
+      consolidatedMatch =
+        combineDuplicateMatchesForValue(matchesWithDuplicates,
+                                        currentMatch.value);
+      matchesLessDuplicates.push(consolidatedMatch);
+      matchesWithDuplicates = _.xor(currentValueMatches, matchesWithDuplicates);
+    }
+    return matchesLessDuplicates;
+  }
+
+  function combineDuplicateMatchesForValue(matches, value) {
+    var filtered = _.filter(matches, {value: value});
+    var consolidatedMatch =  _.reduce(filtered, function(accMatch, item) {
+      accMatch.matches = _.concat(accMatch.matches, item.matches);
+      return accMatch;
+    }, {value: filtered[0].value, matches: []});
+
+    consolidatedMatch.matches = _.uniqWith(consolidatedMatch.matches,
+                                           _.isEqual);
+    return consolidatedMatch;
   }
 
   function isExactMatch(searchTerm, dataToSearchEntry) {
