@@ -3,6 +3,24 @@ Xledger Challenge
 
 Provides a search bar that displays intuitive search results as the user types.
 
+* Start the karma server
+
+    ```shell
+    ./jake.sh karma
+    ```
+
+* Open up your favourite browser to localhost:9876
+* Build and run the tests
+
+    ```shell
+    ./jake.sh
+    ```
+* Run and try it out manually at localhost:5000
+
+    ```shell
+    ./jake.sh run
+    ```
+
 Chooie's Automatopia (Project Seed)
 ===================================
 
