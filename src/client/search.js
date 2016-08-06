@@ -118,7 +118,11 @@
   function combineDuplicateMatchesForValue(matches, value) {
     var filtered = _.filter(matches, {value: value});
     var consolidatedMatch =  _.reduce(filtered, function(accMatch, item) {
-      accMatch.matches = _.concat(accMatch.matches, item.matches);
+      var unorderedMatches;
+      var orderedMatches;
+      unorderedMatches = _.concat(accMatch.matches, item.matches);
+      orderedMatches = _.orderBy(unorderedMatches, 'start');
+      accMatch.matches = orderedMatches;
       return accMatch;
     }, {value: filtered[0].value, matches: []});
 
