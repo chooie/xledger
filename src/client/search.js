@@ -15,6 +15,7 @@
     sortByWordLength: sortByWordLength,
     combineDuplicateMatchesForValue: combineDuplicateMatchesForValue,
     consolidateDuplicates: consolidateDuplicates,
+    prepareMatches: prepareMatches,
     run: run
   };
 
@@ -118,17 +119,44 @@
   function combineDuplicateMatchesForValue(matches, value) {
     var filtered = _.filter(matches, {value: value});
     var consolidatedMatch =  _.reduce(filtered, function(accMatch, item) {
-      var unorderedMatches;
-      var orderedMatches;
-      unorderedMatches = _.concat(accMatch.matches, item.matches);
-      orderedMatches = _.orderBy(unorderedMatches, 'start');
-      accMatch.matches = orderedMatches;
+      var unorderedMatches = _.concat(accMatch.matches, item.matches);
+      var handledMatches = prepareMatches(unorderedMatches);
+      accMatch.matches = handledMatches;
       return accMatch;
     }, {value: filtered[0].value, matches: []});
-
     consolidatedMatch.matches = _.uniqWith(consolidatedMatch.matches,
                                            _.isEqual);
     return consolidatedMatch;
+  }
+
+  function prepareMatches(matches) {
+    var orderedMatches = _.orderBy(matches, "start");
+    
+    var orderedMatchesLessUnnecessaryMatches =
+        _.reduce(orderedMatches, function(accumMatches, match) {
+          if (matchNotInRangeOfOtherMatches(orderedMatches, match)) {
+            return _.concat(accumMatches, match);
+          }
+          return accumMatches;
+        }, []);
+    return orderedMatchesLessUnnecessaryMatches;
+  }
+
+  function matchNotInRangeOfOtherMatches(matches, match) {
+    var matchesLessMatch = _.filter(matches, function(curMatch) {
+      return !_.isEqual(curMatch, match);
+    });
+    for (var i = 0; i < matchesLessMatch.length; i += 1) {
+      if (isWithinRange(match, matchesLessMatch[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function isWithinRange(matchToTest, otherMatch) {
+    return (matchToTest.start >= otherMatch.start) &&
+      (matchToTest.end <= otherMatch.end);
   }
 
   function isExactMatch(searchTerm, dataToSearchEntry) {

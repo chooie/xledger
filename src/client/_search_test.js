@@ -89,6 +89,15 @@
       var actual = search.consolidateDuplicates(matches);
       isEqual(desired, actual);
     });
+
+    it("Ranges get handled correctly", function() {
+      var matchRanges = [{start: 4, end: 11},
+                         {start: 0, end: 11},
+                         {start: 0, end: 3}];
+      var expectedRanges = [{start: 0, end: 11}];
+      var actualRanges = search.prepareMatches(matchRanges);
+      isEqual(expectedRanges, actualRanges);
+    });
   });
 
   describe("Util", function() {
