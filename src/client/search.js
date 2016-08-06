@@ -21,11 +21,11 @@
 
   function search(dataToSearch, searchTerm) {
 
-    var matches = getSearchResultsForWholeTerm(dataToSearch, searchTerm);
+    var priorityMatches = getSearchResultsForWholeTerm(dataToSearch, searchTerm);
 
     var desiredResultCount = 20;
 
-    var mostRelevantSubset = matches.slice(0, desiredResultCount);
+    var mostRelevantSubset = priorityMatches.slice(0, desiredResultCount);
 
     var searchTermWords = searchTerm.split(" ");
 
@@ -40,13 +40,34 @@
       return getSearchResultsForWholeTerm(dataToSearch, word);
     });
 
-    matches = _.concat(matches, _.flatten(matchesForEachWord));
+    var matchesForWords =  _.flatten(matchesForEachWord);
 
-    var matchesLessDuplicates = consolidateDuplicates(matches);
+    var matchesLessDuplicates =
+        consolidateDuplicates(matchesForWords);
 
-    mostRelevantSubset = matchesLessDuplicates.slice(0, desiredResultCount);
+    var matchesForEachWordOrderedByMatchMagnitude =
+        _.orderBy(matchesLessDuplicates, function(match) {
+          return getMatchMagnitude(match);
+        }, 'desc');
+
+    var allMatches = _.concat(priorityMatches,
+                              matchesForEachWordOrderedByMatchMagnitude);
+
+    matchesLessDuplicates = consolidateDuplicates(allMatches);
+
+    mostRelevantSubset =
+      matchesLessDuplicates.slice(0, desiredResultCount);
 
     return mostRelevantSubset;
+  }
+
+  function getMatchMagnitude(match) {
+    var magnitude = 0;
+    match.matches.forEach(function(matchRange) {
+      var range = matchRange.end - matchRange.start;
+      magnitude += range;
+    });
+    return magnitude;
   }
 
   function sortByWordLength(words) {
