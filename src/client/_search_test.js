@@ -97,6 +97,14 @@
       var expectedRanges = [{start: 0, end: 11}];
       var actualRanges = search.prepareMatches(matchRanges);
       isEqual(expectedRanges, actualRanges);
+
+      matchRanges = [{start: 0, end: 4},
+                     {start: 3, end: 5},
+                     {start: 10, end: 15}];
+      expectedRanges = [{start: 0, end: 5},
+                        {start: 10, end: 15}];
+      actualRanges = search.prepareMatches(matchRanges);
+      isEqual(expectedRanges, actualRanges);
     });
   });
 
